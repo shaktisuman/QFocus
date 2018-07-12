@@ -1,2 +1,3 @@
 python QFocusV1.py --prototxt deploy.prototxt.txt --model res10_300x300_ssd_iter_140000.caffemodel
 
+Hit q on keyboard to stop the program.
