@@ -17,7 +17,7 @@ import pyaudio
 import wave
 import matplotlib.pylab as plt
 
-#define stream chunk   
+  
 chunk = 1024
 f_hours = {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0}
 ct = 0
@@ -31,32 +31,22 @@ def showGraph():
 	plt.plot(x, y)
 	plt.show()
 	
-def play_sound():
-	#open a wav format music 
+def play_sound(): 
 	if counter > 50:
 		f_hours[int(time.strftime("%H"))] = f_hours.get(int(time.strftime("%H"))) + 1
 		print msg 
-		f = wave.open("DING.wav","rb")  
-		#instantiate PyAudio  
-		p = pyaudio.PyAudio()  
-		#open stream  
+		f = wave.open("DING.wav","rb")    
+		p = pyaudio.PyAudio()    
 		stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
 		                channels = f.getnchannels(),  
 		                rate = f.getframerate(),  
-		                output = True)  
-		#read data  
-		data = f.readframes(chunk)  
-
-		#play stream  
+		                output = True)    
+		data = f.readframes(chunk) 
 		while data:  
 		    stream.write(data)  
 		    data = f.readframes(chunk)  
-
-		#stop stream  
 		stream.stop_stream()  
 		stream.close()  
-
-		#close PyAudio  
 		p.terminate()   
 
 ap = argparse.ArgumentParser()
@@ -65,7 +55,7 @@ ap.add_argument("-p", "--prototxt", required=True,
 ap.add_argument("-m", "--model", required=True,
 	help="path to Caffe pre-trained model")
 ap.add_argument("-c", "--confidence", type=float, default=0.5,
-	help="minimum probability to filter weak detections")
+	help="Probability to filter weak detections")
 args = vars(ap.parse_args())
 
 net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
