@@ -5,7 +5,6 @@ Created on Sat Jul  7 03:14:52 2018
 @author: shaksuma
 """
 
-#python Qfocus.py --prototxt deploy.prototxt.txt --model res10_300x300_ssd_iter_140000.caffemodel
 
 from imutils.video import VideoStream
 import numpy as np
@@ -86,25 +85,25 @@ while True:
 			continue
 		box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 		(startX, startY, endX, endY) = box.astype("int")
-		if (confidence*100) < 98.0:
+		if (confidence*100) < 98.5:
 			ts=time.time()
 			print datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d  %H:%M:%S')
 			counter = counter + 1
-			msg = "  Not Focused"
-			text = "{:.2f}%".format(confidence * 100) + msg
+			msg = "Probably Not Focused"
+			#text = "{:.2f}%".format(confidence * 100) + msg
 			y = startY - 10 if startY - 10 > 10 else startY + 10
 			cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)
-			cv2.putText(frame, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+			cv2.putText(frame, msg, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 			play_sound()
 		else:
 			counter = 0
 			ts=time.time()
 			print datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d  %H:%M:%S')
-			msg = "  Focused"
-			text = "{:.2f}%".format(confidence * 100) + msg
+			msg = "Focused"
+			#text = "{:.2f}%".format(confidence * 100) + msg
 			y = startY - 10 if startY - 10 > 10 else startY + 10
 			cv2.rectangle(frame, (startX, startY), (endX, endY), (255, 50, 0), 2)
-			cv2.putText(frame, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 50, 0), 2)
+			cv2.putText(frame, msg, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 50, 0), 2)
 		
 		#print msg
 
